@@ -24,6 +24,7 @@ const App = () => {
           </div>
         </div>
       )}
+      <h2>Add new anecdote</h2>
       <AnecdoteForm/>
     </div>
   )
