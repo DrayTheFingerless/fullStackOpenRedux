@@ -1,4 +1,5 @@
 import { sendVote } from "../reducers/anecdoteReducer"
+import { createNotif, deleteNotif } from "../reducers/notificationReducer"
 import { useSelector, useDispatch } from 'react-redux'
 
 const AnecdotesList = () => {
@@ -14,6 +15,11 @@ const AnecdotesList = () => {
 
     const vote = (id) => {
         dispatch(sendVote(id))
+        const notiftext = anecdotes.find(anecdote => anecdote.id === id).content
+        dispatch(createNotif("You voted for \"" + notiftext + "\""))
+        setTimeout(() => {
+          dispatch(deleteNotif())
+        }, 5000)
     }
 
     return(
