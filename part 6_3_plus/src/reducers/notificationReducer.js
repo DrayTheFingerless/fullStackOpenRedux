@@ -6,7 +6,7 @@ const notifSlice = createSlice({
     name: "notification",
     initialState,
     reducers:{
-        createNotif(state, action){
+        startNotif(state, action){
             return action.payload
         },
         deleteNotif(state){
@@ -15,5 +15,15 @@ const notifSlice = createSlice({
     }
 })
 
-export const {createNotif, deleteNotif} = notifSlice.actions
+export const {startNotif, deleteNotif} = notifSlice.actions
+
+export const createNotif = (text, time) => {
+    return dispatch => {
+        dispatch(startNotif(text))
+        setTimeout(() => {
+          dispatch(deleteNotif())
+        }, time)
+    }
+}
+
 export default notifSlice.reducer

@@ -1,5 +1,5 @@
 import { vote } from "../reducers/anecdoteReducer"
-import { createNotif, deleteNotif } from "../reducers/notificationReducer"
+import { createNotif } from "../reducers/notificationReducer"
 import { useSelector, useDispatch } from 'react-redux'
 
 const AnecdotesList = () => {
@@ -20,10 +20,7 @@ const AnecdotesList = () => {
         const changedAnecdote = { ...obj, votes: obj.votes +1 }
         dispatch(vote(changedAnecdote))
         const notiftext = anecdotes.find(anecdote => anecdote.id === obj.id).content
-        dispatch(createNotif("You voted for \"" + notiftext + "\""))
-        setTimeout(() => {
-          dispatch(deleteNotif())
-        }, 5000)
+        dispatch(createNotif("You voted for \"" + notiftext + "\"", 5000))
     }
 
     return(
