@@ -1,4 +1,4 @@
-import { sendVote } from "../reducers/anecdoteReducer"
+import { vote } from "../reducers/anecdoteReducer"
 import { createNotif, deleteNotif } from "../reducers/notificationReducer"
 import { useSelector, useDispatch } from 'react-redux'
 
@@ -9,14 +9,17 @@ const AnecdotesList = () => {
         if ( state.filter.length === 0  ) {
           return state.anecdotes    
         }    
-        return state.anecdotes.filter(anecdote => anecdote.content.toLowerCase().includes(state.filter.toLowerCase()))
+        return state.anecdotes.filter(anecdote => 
+          anecdote.content.toLowerCase().includes(state.filter.toLowerCase()))
       })
 
     const dispatch = useDispatch()
 
-    const vote = (id) => {
-        dispatch(sendVote(id))
-        const notiftext = anecdotes.find(anecdote => anecdote.id === id).content
+    const addVote = (id) => {
+        const obj = anecdotes.find(a => a.id === id)
+        const changedAnecdote = { ...obj, votes: obj.votes +1 }
+        dispatch(vote(changedAnecdote))
+        const notiftext = anecdotes.find(anecdote => anecdote.id === obj.id).content
         dispatch(createNotif("You voted for \"" + notiftext + "\""))
         setTimeout(() => {
           dispatch(deleteNotif())
@@ -31,7 +34,7 @@ const AnecdotesList = () => {
           </div>
           <div>
             has {anecdote.votes}
-            <button onClick={() => vote(anecdote.id)}>vote</button>
+            <button onClick={() => addVote(anecdote.id)}>vote</button>
           </div>
         </div>
       )}
