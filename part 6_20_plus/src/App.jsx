@@ -20,8 +20,6 @@ const App = () => {
     }
   )
 
-  console.log(JSON.parse(JSON.stringify(data)))
-
   if(isPending) {
     return(
       <div>
