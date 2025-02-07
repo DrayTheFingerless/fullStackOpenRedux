@@ -7,6 +7,7 @@ const notifReducer = (state, action) => {
     switch(action.type){    
         case "VOTE": return `You voted for ${action.payload}`
         case "CREATED": return `New anecdote: ${action.payload}`
+        case "ERROR": return `An error occurred: ${action.payload}`
         case "CLEAR": return null
         default: return null
     }

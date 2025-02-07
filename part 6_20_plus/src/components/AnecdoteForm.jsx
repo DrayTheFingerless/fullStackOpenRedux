@@ -9,7 +9,19 @@ const AnecdoteForm = () => {
   const queryClient = useQueryClient()
   const newNoteMutation = useMutation({ 
     mutationFn: addAnecdote,
-    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ['anecdotes'] }) } 
+    onSuccess: (data) => { 
+      console.log("data" + data.content)
+      notifDispatch({ type: 'CREATED', payload: data.content })
+      setTimeout(() => {
+        notifDispatch("CLEAR")
+      }, 3000)
+      queryClient.invalidateQueries({ queryKey: ['anecdotes'] }) }, 
+    onError: (error) => {
+      notifDispatch({ type: 'ERROR', payload: error })
+      setTimeout(() => {
+        notifDispatch("CLEAR")
+      }, 3000)
+    }
   })
 
   const onCreate = (event) => {
@@ -17,10 +29,7 @@ const AnecdoteForm = () => {
     const content = event.target.anecdote.value
     event.target.anecdote.value = ''
     newNoteMutation.mutate({content, votes: 0})
-    notifDispatch({ type: 'CREATED', payload: content })
-    setTimeout(() => {
-      notifDispatch("CLEAR")
-    }, 3000)
+    
   }
 
   return (
